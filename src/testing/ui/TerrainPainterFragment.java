@@ -314,6 +314,11 @@ public class TerrainPainterFragment{
         }).fillX().left().padBottom(10);
     }
 
+    public void updateMenu(){
+        buildings = isBuilding(painter.drawBlock);
+        rebuild();
+    }
+
     private boolean blockFilter(Block b){
         if(buildings){
             return isBuilding(b);

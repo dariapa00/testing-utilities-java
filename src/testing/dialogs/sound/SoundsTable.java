@@ -16,8 +16,6 @@ import mindustry.graphics.*;
 import testing.ui.*;
 import testing.util.*;
 
-import java.util.*;
-
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -78,7 +76,7 @@ public class SoundsTable extends STable{
                     });
                 }
             });
-            modSounds.sort(Comparator.comparing(o -> soundMods.get(o)));
+            modSounds.sort(Structs.comparing(o -> soundMods.get(o)));
         }
     }
 

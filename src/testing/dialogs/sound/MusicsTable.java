@@ -19,8 +19,6 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import testing.ui.*;
 
-import java.util.*;
-
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -76,7 +74,7 @@ public class MusicsTable extends STable{
                     });
                 }
             });
-            modMusic.sort(Comparator.comparing(o -> musicMods.get(o)));
+            modMusic.sort(Structs.comparing(o -> musicMods.get(o)));
         }
     }
 

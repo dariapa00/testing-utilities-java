@@ -11,8 +11,6 @@ import mindustry.gen.*;
 import mindustry.ui.*;
 import testing.ui.*;
 
-import java.util.*;
-
 import static arc.math.Interp.*;
 
 public class InterpDialog extends TUBaseDialog{
@@ -152,7 +150,7 @@ public class InterpDialog extends TUBaseDialog{
 
     void setupButton(TextButton t){
         t.clicked(() -> lastPressed = t.getText().toString());
-        t.update(() -> t.setChecked(Objects.equals(lastPressed, t.getText().toString())));
+        t.update(() -> t.setChecked(Structs.eq(lastPressed, t.getText().toString())));
     }
 
     void setConfigType(int type){

@@ -29,10 +29,10 @@ public class TeamChanger{
 
     public static Cell<Table> teamChanger(Table t){
         return t.table(teams -> {
+            TUElements.boxTooltip(teams, "@tu-tooltip.button-team");
             int i = 0;
             for(Team team : Team.baseTeams){
                 ImageButton button = new ImageButton(Tex.whiteui, Styles.clearNoneTogglei);
-                TUElements.boxTooltip(button, "@tu-tooltip.button-team");
                 button.clicked(() -> {
                     if(TUVars.pressTimer > TUVars.longPress) return;
                     changeTeam(team);

@@ -87,6 +87,7 @@ public class Setup{
         TeamChanger.addButton(temp);
         Health.addButtons(temp);
         Death.addButtons(temp);
+        LightSwitch.lightButton(temp);
 
         //Normal UI
         mainButtons.visible(() -> {

@@ -10,6 +10,7 @@ import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import testing.content.*;
+import testing.scene.ui.*;
 import testing.ui.*;
 import testing.util.*;
 
@@ -77,12 +78,11 @@ public class Death{
     }
 
     public static void seppuku(Table t){
-        Cell<ImageButton> i = t.button(Icon.units, TUStyles.tuImageStyle, TUVars.iconSize, () -> {
-            if(TUVars.pressTimer > TUVars.longPress) return;
-            spontaniumCombustum();
-        });
-
-        ImageButton b = i.get();
+        HoldImageButton b = new HoldImageButton(Icon.units, TUStyles.tuHoldImageStyle);
+        b.clicked(Death::spontaniumCombustum);
+        b.held(Death::spontaniumCombustum);
+        b.resizeImage(TUVars.iconSize);
+        b.setRepeat(true);
 
         TUElements.boxTooltip(b, "@tu-tooltip.button-seppuku");
         UnitStack kill = new UnitStack(TUIcons.seppuku);
@@ -91,25 +91,19 @@ public class Death{
 
         b.setDisabled(() -> player.unit() == null || player.unit().type.internal);
         b.update(() -> {
-            if(b.isPressed() && !b.isDisabled() && !net.client()){
-                TUVars.pressTimer += TUVars.delta();
-                if(TUVars.pressTimer > TUVars.longPress){
-                    spontaniumCombustum();
-                }
-            }
             updateIcon(kill);
             kill.setColor(b.isDisabled() ? Color.gray : Color.white);
         });
-        b.released(() -> TUVars.pressTimer = 0);
+
+        t.add(b);
     }
 
     public static void clone(Table t){
-        Cell<ImageButton> i = t.button(Icon.units, TUStyles.tuImageStyle, TUVars.iconSize, () -> {
-            if(TUVars.pressTimer > TUVars.longPress) return;
-            mitosis();
-        });
-
-        ImageButton b = i.get();
+        HoldImageButton b = new HoldImageButton(Icon.units, TUStyles.tuHoldImageStyle);
+        b.clicked(Death::mitosis);
+        b.held(Death::mitosis);
+        b.resizeImage(TUVars.iconSize);
+        b.setRepeat(true);
 
         TUElements.boxTooltip(b, "@tu-tooltip.button-clone");
         UnitStack dupe = new UnitStack(TUIcons.clone);
@@ -118,17 +112,11 @@ public class Death{
 
         b.setDisabled(() -> player.unit() == null || player.unit().type.internal);
         b.update(() -> {
-            if(b.isPressed() && !b.isDisabled() && !net.client()){
-                TUVars.pressTimer += TUVars.delta();
-                if(TUVars.pressTimer > TUVars.longPress){
-                    mitosis();
-                }
-            }
             updateIcon(dupe);
             dupe.setColor(b.isDisabled() ? Color.gray : Color.white);
         });
-        b.released(() -> TUVars.pressTimer = 0);
-        b.replaceImage(dupe);
+
+        t.add(b);
     }
 
     public static void addButtons(Table t){

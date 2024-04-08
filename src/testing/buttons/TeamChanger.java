@@ -1,12 +1,11 @@
 package testing.buttons;
 
 import arc.*;
-import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.ui.*;
+import testing.scene.ui.*;
 import testing.ui.*;
 import testing.util.*;
 
@@ -32,24 +31,13 @@ public class TeamChanger{
             TUElements.boxTooltip(teams, "@tu-tooltip.button-team");
             int i = 0;
             for(Team team : Team.baseTeams){
-                ImageButton button = new ImageButton(Tex.whiteui, Styles.clearNoneTogglei);
-                button.clicked(() -> {
-                    if(TUVars.pressTimer > TUVars.longPress) return;
-                    changeTeam(team);
-                });
+                HoldImageButton button = new HoldImageButton(Tex.whiteui, TUStyles.clearNoneTogglehi);
+                button.clicked(() -> changeTeam(team));
+                button.held(() -> teamDialog.show(curTeam(), TeamChanger::changeTeam));
+
                 button.getImageCell().grow().scaling(Scaling.stretch).center().pad(0).margin(0);
                 button.getStyle().imageUpColor = team.color;
-                button.update(() -> {
-                    if(button.isPressed()){
-                        TUVars.pressTimer += TUVars.delta();
-                        if(TUVars.pressTimer >= TUVars.longPress && !teamDialog.isShown()){
-                            teamDialog.show(curTeam(), TeamChanger::changeTeam);
-                        }
-                    }
-
-                    button.setChecked(player.team() == team);
-                });
-                button.released(() -> TUVars.pressTimer = 0);
+                button.update(() -> button.setChecked(player.team() == team));
 
                 teams.add(button).grow().margin(6f).center();
                 if(++i % 3 == 0){

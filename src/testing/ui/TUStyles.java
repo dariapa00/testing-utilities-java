@@ -6,6 +6,7 @@ import arc.scene.ui.ImageButton.*;
 import arc.scene.ui.TextButton.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
+import testing.scene.ui.HoldImageButton.*;
 
 import static arc.Core.*;
 import static arc.graphics.Color.*;
@@ -24,6 +25,10 @@ public class TUStyles{
         lefti, toggleLefti,
         righti, toggleRighti,
         centeri;
+
+    public static HoldImageButtonStyle
+        tuHoldImageStyle,
+        clearNoneTogglehi;
 
     public static void init(){
         buttonLeft = atlas.getDrawable("test-utils-button-left");
@@ -92,5 +97,9 @@ public class TUStyles{
             down = buttonCenterDown;
             over = buttonCenterOver;
         }};
+
+        tuHoldImageStyle = new HoldImageButtonStyle(tuImageStyle);
+
+        clearNoneTogglehi = new HoldImageButtonStyle(Styles.clearNoneTogglei);
     }
 }

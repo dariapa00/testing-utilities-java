@@ -68,7 +68,9 @@ public class SoundsTable extends STable{
                             }else{ //Add
                                 String path = f.pathWithoutExtension();
                                 int folderIndex = f.pathWithoutExtension().indexOf(mDir);
-                                Sound sou = tree.loadSound(path.substring(folderIndex + mDir.length()));
+                                String loc = path.substring(folderIndex + mDir.length());
+                                if(assets.isLoaded(loc) && assets.getAssetType(loc) != Sound.class) return;
+                                Sound sou = tree.loadSound(loc);
                                 modSounds.addUnique(sou);
                                 soundMods.put(sou, mName);
                             }

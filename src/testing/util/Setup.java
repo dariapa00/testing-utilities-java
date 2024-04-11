@@ -23,10 +23,7 @@ public class Setup{
     public static void init(){
         TUDialogs.load();
 
-        Boolp main = () -> {
-            if(TestUtils.disableCampaign()) return false;
-            return buttonVisibility();
-        };
+        Boolp main = () -> !TestUtils.disableCampaign();
 
         BLSetup.addTable(table -> {
             if(mobile && Core.settings.getBool("console")){
@@ -78,10 +75,6 @@ public class Setup{
             pos.setAlignment(Align.right, Align.right);
             posLabelAligned = true;
         });
-    }
-
-    public static boolean buttonVisibility(){
-        return !(!ui.hudfrag.shown || ui.minimapfrag.shown());
     }
 
     private static String fix(float f){

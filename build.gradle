@@ -38,7 +38,7 @@ dependencies{
 
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 
-    implementation "com.github.MEEPofFaith:bottom-left-ui:$bluiVersion"
+    compileOnly "com.github.MEEPofFaith:bottom-left-ui:$bluiVersion"
 }
 
 //force arc version

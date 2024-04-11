@@ -53,8 +53,6 @@ public class Setup{
             table.table(Tex.pane, Death::seppuku);
         }, () -> state.isCampaign() && !main.get());
 
-        BLSetup.init();
-
         Table miniPos = ui.hudGroup.find("minimap/position");
         Label pos = miniPos.find("position");
         pos.setText(() ->

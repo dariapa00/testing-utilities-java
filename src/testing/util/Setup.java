@@ -38,7 +38,7 @@ public class Setup{
             });
             table.row();
 
-            table.table(Tex.buttonEdge3, t -> {
+            table.table(Tex.pane, t -> {
                 TeamChanger.addButton(t);
                 Health.addButtons(t);
                 Death.addButtons(t);

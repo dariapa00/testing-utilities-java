@@ -13,6 +13,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import blui.ui.*;
 import mindustry.*;
 import mindustry.core.*;
 import mindustry.gen.*;
@@ -91,7 +92,7 @@ public class MusicsTable extends STable{
     }
 
     public void createPlay(Table t){
-        TUElements.divider(t, "@tu-sound-menu.music", Pal.accent);
+        BLElements.divider(t, "@tu-sound-menu.music", Pal.accent);
         t.table(s -> {
             s.label(() -> Core.bundle.format("tu-sound-menu.now-playing", getName(playingMusic))).left().colspan(3).padBottom(6f);
             s.row();
@@ -111,7 +112,7 @@ public class MusicsTable extends STable{
         selection.table(list -> {
             Seq<Music> vSounds = vanillaMusic.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
             if(vSounds.size > 0){
-                TUElements.divider(list, "@tu-sound-menu.vanilla", Pal.accent);
+                BLElements.divider(list, "@tu-sound-menu.vanilla", Pal.accent);
 
                 list.table(v -> vanillaMusicList(v, vSounds)).growX();
                 list.row();
@@ -119,7 +120,7 @@ public class MusicsTable extends STable{
 
             Seq<Music> mSounds = modMusic.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
             if(mSounds.size > 0){
-                TUElements.divider(list, "@tu-sound-menu.modded", Pal.accent);
+                BLElements.divider(list, "@tu-sound-menu.modded", Pal.accent);
 
                 list.table(m -> modMusicList(m, mSounds)).growX();
             }
@@ -136,7 +137,7 @@ public class MusicsTable extends STable{
 
             if(overrides.containsKey(m)){
                 mb.setDisabled(true);
-                TUElements.boxTooltip(mb, bundle.format("tu-sound-menu.music-overwritten", overrides.get(m)));
+                BLElements.boxTooltip(mb, bundle.format("tu-sound-menu.music-overwritten", overrides.get(m)));
             }
 
             if((++count) % cols == 0){
@@ -155,7 +156,7 @@ public class MusicsTable extends STable{
                 lastMod = curMod;
                 if(count % cols != 0) t.row();
                 count = 0;
-                TUElements.divider(t, curMod, Color.lightGray, 4);
+                BLElements.divider(t, curMod, Color.lightGray, 4);
                 t.row();
             }
 

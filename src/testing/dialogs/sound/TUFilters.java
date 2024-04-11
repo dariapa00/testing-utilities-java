@@ -9,7 +9,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.TextField.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
-import testing.ui.*;
+import blui.ui.*;
 
 public class TUFilters{
     public static FilterModule<?>[] filters;
@@ -41,7 +41,7 @@ public class TUFilters{
                                 .wrapLabel(false)
                                 .colspan(2).left();
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     freq = Strings.parseFloat(text);
                                     update.run();
@@ -54,7 +54,7 @@ public class TUFilters{
                                 }, "@tu-filters-freq", "@tu-filters-biquad-freq-desc"
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     res = Strings.parseFloat(text);
                                     update.run();
@@ -85,7 +85,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     del = Strings.parseFloat(text);
                                     update.run();
@@ -98,7 +98,7 @@ public class TUFilters{
                                 }, "@tu-filters-del", "@tu-filters-echo-del-desc"
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     dec = Strings.parseFloat(text);
                                     update.run();
@@ -111,7 +111,7 @@ public class TUFilters{
                                 }, "@tu-filters-echo-dec", "@tu-filters-echo-dec-desc"
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     fil = Strings.parseFloat(text);
                                     update.run();
@@ -141,7 +141,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     sr = Strings.parseFloat(text);
                                     update.run();
@@ -154,7 +154,7 @@ public class TUFilters{
                                 }, "@tu-filters-lofi-sr", null
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     dep = Strings.parseFloat(text);
                                     update.run();
@@ -183,7 +183,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     del = Strings.parseFloat(text);
                                     update.run();
@@ -196,7 +196,7 @@ public class TUFilters{
                                 }, "@tu-filters-del", "@tu-filters-flanger-del-desc"
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     freq = Strings.parseFloat(text);
                                     update.run();
@@ -225,7 +225,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     am = Strings.parseFloat(text);
                                     update.run();
@@ -254,7 +254,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     am = Strings.parseFloat(text);
                                     update.run();
@@ -284,7 +284,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     freq = Strings.parseFloat(text);
                                     update.run();
@@ -328,7 +328,7 @@ public class TUFilters{
                     buildUI = (t, a) -> {
                         addHeader(t);
                         t.table(sl -> {
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     rms = Strings.parseFloat(text);
                                     update.run();
@@ -341,7 +341,7 @@ public class TUFilters{
                                 }, "@tu-filters-freeverb-rms", null
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     damp = Strings.parseFloat(text);
                                     update.run();
@@ -354,7 +354,7 @@ public class TUFilters{
                                 }, "@tu-filters-freeverb-damp", null
                             );
                             sl.row();
-                            TUElements.sliderSet(
+                            BLElements.sliderSet(
                                 sl, text -> {
                                     width = Strings.parseFloat(text);
                                     update.run();
@@ -422,7 +422,7 @@ public class TUFilters{
         }
 
         protected void addHeader(Table t){
-            TUElements.divider(t, Core.bundle.get("tu-filters-" + name) + " " + Core.bundle.get("tu-filters-filter"), Color.lightGray);
+            BLElements.divider(t, Core.bundle.get("tu-filters-" + name) + " " + Core.bundle.get("tu-filters-filter"), Color.lightGray);
         }
     }
 

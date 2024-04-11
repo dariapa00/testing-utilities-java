@@ -4,9 +4,9 @@ import arc.scene.style.*;
 import arc.scene.ui.Button.*;
 import arc.scene.ui.ImageButton.*;
 import arc.scene.ui.TextButton.*;
+import blui.scene.ui.HoldImageButton.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
-import testing.scene.ui.HoldImageButton.*;
 
 import static arc.Core.*;
 import static arc.graphics.Color.*;

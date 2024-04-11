@@ -10,6 +10,7 @@ import arc.scene.ui.TextField.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import blui.ui.*;
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -93,7 +94,7 @@ public class SoundsTable extends STable{
     }
 
     public void createPlay(Table t){
-        TUElements.divider(t, "@tu-sound-menu.sound", Pal.accent);
+        BLElements.divider(t, "@tu-sound-menu.sound", Pal.accent);
         t.table(s -> {
             s.button(Icon.play, () -> {
                 AudioBus prev = sound.bus;
@@ -132,7 +133,7 @@ public class SoundsTable extends STable{
                 maxPitchF[0].setValidator(v -> Strings.parseFloat(v) >= minPitch);
             }).padLeft(6f).left();
         }).row();
-        TUElements.divider(t, "@tu-sound-menu.sound-loop", Pal.accent);
+        BLElements.divider(t, "@tu-sound-menu.sound-loop", Pal.accent);
         t.table(l -> {
             l.defaults().left();
 
@@ -171,7 +172,7 @@ public class SoundsTable extends STable{
         selection.table(list -> {
             Seq<Sound> vSounds = vanillaSounds.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
             if(vSounds.size > 0){
-                TUElements.divider(list, "@tu-sound-menu.vanilla", Pal.accent);
+                BLElements.divider(list, "@tu-sound-menu.vanilla", Pal.accent);
 
                 list.table(v -> vanillaSoundList(v, vSounds)).growX();
                 list.row();
@@ -179,7 +180,7 @@ public class SoundsTable extends STable{
 
             Seq<Sound> mSounds = modSounds.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
             if(mSounds.size > 0){
-                TUElements.divider(list, "@tu-sound-menu.modded", Pal.accent);
+                BLElements.divider(list, "@tu-sound-menu.modded", Pal.accent);
 
                 list.table(m -> modSoundList(m, mSounds)).growX();
             }
@@ -198,7 +199,7 @@ public class SoundsTable extends STable{
 
             if(overrides.containsKey(s)){
                 sb.setDisabled(true);
-                TUElements.boxTooltip(sb, bundle.format("tu-sound-menu.sound-overwritten", overrides.get(s)));
+                BLElements.boxTooltip(sb, bundle.format("tu-sound-menu.sound-overwritten", overrides.get(s)));
             }
 
             if((++count) % cols == 0){
@@ -217,7 +218,7 @@ public class SoundsTable extends STable{
                 lastMod = curMod;
                 if(count % cols != 0) t.row();
                 count = 0;
-                TUElements.divider(t, curMod, Color.lightGray, 4);
+                BLElements.divider(t, curMod, Color.lightGray, 4);
                 t.row();
             }
 

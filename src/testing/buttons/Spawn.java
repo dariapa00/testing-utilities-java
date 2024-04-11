@@ -3,6 +3,7 @@ package testing.buttons;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import blui.ui.*;
 import mindustry.content.*;
 import testing.ui.*;
 import testing.util.*;
@@ -15,7 +16,7 @@ public class Spawn{
 
     public static void unitMenu(Table t){
         ImageButton b = new ImageButton(unitDialog.getUnit().uiIcon, TUStyles.tuImageStyle);
-        TUElements.boxTooltip(b, "@tu-tooltip.button-units");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-units");
         b.clicked(unitDialog::show);
         b.resizeImage(40f);
         b.update(() -> {
@@ -29,7 +30,7 @@ public class Spawn{
 
     public static void blockMenu(Table t){
         ImageButton b = new ImageButton(blockDialog.getBlock().uiIcon, TUStyles.tuImageStyle);
-        TUElements.boxTooltip(b, "@tu-tooltip.button-block");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-block");
         b.clicked(() -> {
             if(net.client()){
                 Utils.runCommand("core pos");
@@ -49,7 +50,7 @@ public class Spawn{
 
     public static void placeCore(Table t){
         ImageButton b = new ImageButton(Blocks.coreShard.uiIcon, TUStyles.tuImageStyle);
-        TUElements.boxTooltip(b, "@tu-tooltip.button-core");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-core");
         b.clicked(() -> {
             if(net.client()) Utils.runCommand("core pos");
         });

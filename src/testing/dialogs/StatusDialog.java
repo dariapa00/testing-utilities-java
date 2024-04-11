@@ -9,6 +9,8 @@ import arc.scene.ui.TextField.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import blui.*;
+import blui.ui.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
@@ -41,7 +43,7 @@ public class StatusDialog extends TUBaseDialog{
         cont.pane(all -> all.add(selection)).row();
         cont.table(null, b -> {
             b.table(sl -> {
-                sl.collapser(s -> TUElements.sliderSet(
+                sl.collapser(s -> BLElements.sliderSet(
                     s, text -> duration = Strings.parseFloat(text), () -> String.valueOf(duration),
                     TextFieldFilter.floatsOnly, Strings::canParsePositiveFloat,
                     minDur, maxDur, 0.125f, duration, (n, f) -> {
@@ -53,14 +55,14 @@ public class StatusDialog extends TUBaseDialog{
                 ), true, () -> !perma && !status.permanent).bottom().get().setDuration(0.06f);
             }).colspan(2);
             b.row();
-            ImageButton ab = b.button(TUIcons.get(Icon.add), TUStyles.lefti, TUVars.buttonSize, this::apply)
+            ImageButton ab = b.button(TUIcons.get(Icon.add), TUStyles.lefti, BLVars.buttonSize, this::apply)
                 .wrapLabel(false).right().get();
-            TUElements.boxTooltip(ab, "@tu-tooltip.status-apply");
+            BLElements.boxTooltip(ab, "@tu-tooltip.status-apply");
             ab.label(() -> "@tu-status-menu.apply").padLeft(6);
 
-            ImageButton pb = b.button(TUIcons.get(Icon.refresh), TUStyles.toggleRighti, TUVars.buttonSize, () -> perma = !perma)
+            ImageButton pb = b.button(TUIcons.get(Icon.refresh), TUStyles.toggleRighti, BLVars.buttonSize, () -> perma = !perma)
                 .wrapLabel(false).left().get();
-            TUElements.boxTooltip(pb, "@tu-tooltip.status-perma");
+            BLElements.boxTooltip(pb, "@tu-tooltip.status-perma");
             Label pl = pb.label(() -> "@tu-status-menu.perma").padLeft(6).get();
             pb.setDisabled(() -> status.permanent);
             pb.update(() -> {
@@ -69,7 +71,7 @@ public class StatusDialog extends TUBaseDialog{
             });
         }).padTop(6);
 
-        TUElements.boxTooltip(
+        BLElements.boxTooltip(
             buttons.button("$tu-status-menu.clear", Icon.cancel, this::clearStatus).get(),
             "@tu-tooltip.status-clear"
         );
@@ -116,7 +118,7 @@ public class StatusDialog extends TUBaseDialog{
                         status = s;
                     }
                 });
-                TUElements.boxTooltip(image, s.localizedName);
+                BLElements.boxTooltip(image, s.localizedName);
 
                 if((++count) % cols == 0){
                     list.row();

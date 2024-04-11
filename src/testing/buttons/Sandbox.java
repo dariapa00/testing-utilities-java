@@ -2,8 +2,10 @@ package testing.buttons;
 
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import blui.*;
+import blui.scene.ui.*;
+import blui.ui.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
-import testing.scene.ui.*;
 import testing.ui.*;
 import testing.util.*;
 
@@ -74,7 +76,7 @@ public class Sandbox{
         Cell<ImageButton> i = t.button(TUIcons.survival, TUStyles.tuImageStyle, Sandbox::toggle);
 
         ImageButton b = i.get();
-        TUElements.boxTooltip(b, "@tu-tooltip.button-sandbox");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-sandbox");
         b.update(() -> {
             b.getStyle().imageUp = state.rules.infiniteResources ? TUIcons.survival : TUIcons.sandbox;
         });
@@ -85,9 +87,9 @@ public class Sandbox{
         HoldImageButton b = new HoldImageButton(TUIcons.core, TUStyles.tuHoldImageStyle);
         b.clicked(Sandbox::coreItems);
         b.held(() -> fill = !fill);
-        b.resizeImage(TUVars.iconSize);
+        b.resizeImage(BLVars.iconSize);
 
-        TUElements.boxTooltip(b, "@tu-tooltip.button-fill");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-fill");
         b.update(() -> b.getStyle().imageUp = fill ? TUIcons.core : TUIcons.dump);
 
         t.add(b);

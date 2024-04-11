@@ -7,9 +7,9 @@ import arc.scene.ui.TextButton.*;
 import arc.scene.ui.TextField.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import blui.ui.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
-import testing.ui.*;
 
 import static arc.math.Interp.*;
 
@@ -165,7 +165,7 @@ public class InterpDialog extends TUBaseDialog{
 
         switch(configType){
             case 1, 2, 3 -> { //Pow
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         powP = Strings.parseInt(text);
                         inputInterp();
@@ -180,7 +180,7 @@ public class InterpDialog extends TUBaseDialog{
                 );
             }
             case 4, 5, 6 -> { //Exp
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         expV = Strings.parseFloat(text);
                         inputInterp();
@@ -193,7 +193,7 @@ public class InterpDialog extends TUBaseDialog{
                     },
                     "value", null
                 );
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         expP = Strings.parseFloat(text);
                         inputInterp();
@@ -208,7 +208,7 @@ public class InterpDialog extends TUBaseDialog{
                 );
             }
             case 7, 8, 9 -> { //Elastic
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         elasticV = Strings.parseFloat(text);
                         inputInterp();
@@ -221,7 +221,7 @@ public class InterpDialog extends TUBaseDialog{
                     },
                     "value", null
                 );
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         elasticP = Strings.parseFloat(text);
                         inputInterp();
@@ -234,7 +234,7 @@ public class InterpDialog extends TUBaseDialog{
                     },
                     "power", null
                 );
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         elasticB = Strings.parseInt(text);
                         inputInterp();
@@ -247,7 +247,7 @@ public class InterpDialog extends TUBaseDialog{
                     },
                     "bounces", null
                 );
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         elasticS = Strings.parseFloat(text);
                         inputInterp();
@@ -262,7 +262,7 @@ public class InterpDialog extends TUBaseDialog{
                 );
             }
             case 10, 11, 12 -> { //Swing
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         swingS = Strings.parseFloat(text);
                         inputInterp();
@@ -277,7 +277,7 @@ public class InterpDialog extends TUBaseDialog{
                 );
             }
             case 13, 14, 15 -> { //Bounce
-                TUElements.sliderSet(
+                BLElements.sliderSet(
                     configTable, text -> {
                         bounceB = Strings.parseInt(text);
                         inputInterp();

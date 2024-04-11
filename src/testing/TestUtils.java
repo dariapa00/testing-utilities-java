@@ -11,6 +11,7 @@ import arc.scene.ui.layout.*;
 import arc.scene.utils.*;
 import arc.struct.*;
 import arc.util.*;
+import blui.*;
 import mindustry.game.EventType.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -158,10 +159,6 @@ public class TestUtils extends Mod{
     void loadSettings(){
         ui.settings.addCategory(bundle.get("setting.tu-title"), "test-utils-settings-icon", t -> {
             t.pref(new Banner("test-utils-settings-banner", -1));
-            t.sliderPref("tu-long-press", 2, 1, 12, s -> {
-                TUVars.longPress = s * 60f / 4f;
-                return Strings.autoFixed(s / 4f, 2) + " " + StatUnit.seconds.localized();
-            });
             t.checkPref("tu-instakill", true);
             t.checkPref("tu-despawns", true);
             t.checkPref("tu-permanent", false);
@@ -187,7 +184,7 @@ public class TestUtils extends Mod{
     }
 
     public static boolean disableTeleport(){
-        return TUVars.foos || (net.client() ? !Setup.on2r2t : disableCampaign());
+        return TUVars.foos || net.client() || disableCampaign();
     }
 
     public static boolean canTeleport(){
@@ -267,7 +264,7 @@ public class TestUtils extends Mod{
         @Override
         public void add(SettingsTable table){
             ImageButton b = Elem.newImageButton(icon, listener);
-            b.resizeImage(TUVars.iconSize);
+            b.resizeImage(BLVars.iconSize);
             b.label(() -> title).padLeft(6).growX();
             b.left();
 
@@ -283,7 +280,7 @@ public class TestUtils extends Mod{
 
         @Override
         public void add(SettingsTable table){
-            ImageButton b = table.button(TUIcons.get(Icon.defense), TUVars.iconSize, () -> teamDialog.show(getTeam(), team -> settings.put("tu-default-team", team.id))).left().padTop(3f).get();
+            ImageButton b = table.button(TUIcons.get(Icon.defense), BLVars.iconSize, () -> teamDialog.show(getTeam(), team -> settings.put("tu-default-team", team.id))).left().padTop(3f).get();
             b.label(() -> bundle.format("setting." + name + ".name", "[#" + getTeam().color + "]" + teamDialog.teamName(getTeam()) + "[]")).padLeft(6).growX();
             table.row();
 

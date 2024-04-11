@@ -2,7 +2,9 @@ package testing.buttons;
 
 import arc.graphics.*;
 import arc.scene.ui.layout.*;
-import testing.scene.ui.*;
+import blui.*;
+import blui.scene.ui.*;
+import blui.ui.*;
 import testing.ui.*;
 import testing.util.*;
 
@@ -13,9 +15,9 @@ public class LightSwitch{
         HoldImageButton b = new HoldImageButton(TUIcons.lightOff, TUStyles.tuHoldImageStyle);
         b.clicked(() -> state.rules.lighting = !state.rules.lighting);
         b.held(() -> ui.picker.show(state.rules.ambientLight, true, res -> state.rules.ambientLight.set(res)));
-        b.resizeImage(TUVars.iconSize);
+        b.resizeImage(BLVars.iconSize);
 
-        TUElements.boxTooltip(b, "@tu-tooltip.button-light");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-light");
         b.getStyle().imageChecked = TUIcons.lightOn;
         b.getStyle().imageCheckedColor = new Color();
 

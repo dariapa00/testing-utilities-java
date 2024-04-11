@@ -12,6 +12,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import blui.ui.*;
 import mindustry.content.*;
 import mindustry.editor.*;
 import mindustry.game.EventType.*;
@@ -26,6 +27,7 @@ import testing.editor.*;
 import testing.util.*;
 
 import static arc.Core.*;
+import static blui.BLVars.*;
 import static mindustry.Vars.*;
 import static testing.ui.TUDialogs.*;
 import static testing.util.TUVars.*;
@@ -185,7 +187,7 @@ public class TerrainPainterFragment{
 
                 all.row();
 
-                TUElements.imageButton(
+                BLElements.imageButton(
                     all, TUIcons.get(Icon.defense), Styles.defaulti, buttonSize,
                     () -> teamDialog.show(painter.drawTeam, team -> painter.drawTeam = team),
                     () -> bundle.format("tu-unit-menu.set-team", "[#" + painter.drawTeam.color + "]" + teamDialog.teamName(painter.drawTeam) + "[]"),
@@ -209,7 +211,7 @@ public class TerrainPainterFragment{
                 all.stack(slider, label).width(sliderWidth).padTop(4f);
                 all.row();
 
-                TUElements.imageButton(
+                BLElements.imageButton(
                     all, TUIcons.get(Icon.terrain), Styles.defaulti, buttonSize,
                     () -> painter.flushCliffs(),
                     () -> "@tu-painter.cliffs",
@@ -218,7 +220,7 @@ public class TerrainPainterFragment{
 
                 all.row();
 
-                TUElements.imageButton(
+                BLElements.imageButton(
                     all, TUIcons.get(Icon.left), Styles.defaulti, buttonSize,
                     this::hide,
                     () -> "@close",
@@ -305,7 +307,7 @@ public class TerrainPainterFragment{
                         painter.drawBlock = b;
                     }
                 });
-                TUElements.boxTooltip(image, b.localizedName);
+                BLElements.boxTooltip(image, b.localizedName);
 
                 if((++count) % cols == 0){
                     list.row();

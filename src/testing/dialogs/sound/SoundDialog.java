@@ -6,10 +6,11 @@ import arc.graphics.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import blui.*;
+import blui.ui.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import testing.dialogs.*;
-import testing.ui.*;
 import testing.util.*;
 
 import static arc.Core.*;
@@ -47,7 +48,7 @@ public class SoundDialog extends TUBaseDialog{
                 makeUI();
             });
             ib.label(() -> current == soundsTable ? "@tu-sound-menu.sound" : "@tu-sound-menu.music").wrapLabel(false).left().padRight(8);
-            s.add(ib).height(TUVars.iconSize);
+            s.add(ib).height(BLVars.iconSize);
             s.image(Icon.zoom).padRight(8).padLeft(8);
             search = s.field(null, text -> rebuild()).growX().get();
             search.setMessageText("@players.search");
@@ -89,7 +90,7 @@ public class SoundDialog extends TUBaseDialog{
             current.createSelection(sel, search);
         }).grow().row();
 
-        TUElements.divider(all, null, Color.lightGray);
+        BLElements.divider(all, null, Color.lightGray);
 
         all.pane(t -> {
             t.defaults().top();
@@ -97,7 +98,7 @@ public class SoundDialog extends TUBaseDialog{
             t.row();
 
             if(!Core.settings.getBool("tu-allow-filters", false)) return;
-            TUElements.divider(t, "Audio Filters", Pal.accent);
+            BLElements.divider(t, "Audio Filters", Pal.accent);
             t.table(fil -> {
                 if(filters == null) filters = new FilterTable();
                 fil.add(filters);

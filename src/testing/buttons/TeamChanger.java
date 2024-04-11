@@ -3,9 +3,10 @@ package testing.buttons;
 import arc.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import blui.scene.ui.*;
+import blui.ui.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import testing.scene.ui.*;
 import testing.ui.*;
 import testing.util.*;
 
@@ -28,7 +29,7 @@ public class TeamChanger{
 
     public static Cell<Table> teamChanger(Table t){
         return t.table(teams -> {
-            TUElements.boxTooltip(teams, "@tu-tooltip.button-team");
+            BLElements.boxTooltip(teams, "@tu-tooltip.button-team");
             int i = 0;
             for(Team team : Team.baseTeams){
                 HoldImageButton button = new HoldImageButton(Tex.whiteui, TUStyles.clearNoneTogglehi);

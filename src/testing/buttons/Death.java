@@ -6,11 +6,13 @@ import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import blui.*;
+import blui.scene.ui.*;
+import blui.ui.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import testing.content.*;
-import testing.scene.ui.*;
 import testing.ui.*;
 import testing.util.*;
 
@@ -81,10 +83,10 @@ public class Death{
         HoldImageButton b = new HoldImageButton(Icon.units, TUStyles.tuHoldImageStyle);
         b.clicked(Death::spontaniumCombustum);
         b.held(Death::spontaniumCombustum);
-        b.resizeImage(TUVars.iconSize);
+        b.resizeImage(BLVars.iconSize);
         b.setRepeat(true);
 
-        TUElements.boxTooltip(b, "@tu-tooltip.button-seppuku");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-seppuku");
         UnitStack kill = new UnitStack(TUIcons.seppuku);
         b.replaceImage(kill);
         b.getStyle().disabled = TUStyles.buttonCenterDisabled;
@@ -102,10 +104,10 @@ public class Death{
         HoldImageButton b = new HoldImageButton(Icon.units, TUStyles.tuHoldImageStyle);
         b.clicked(Death::mitosis);
         b.held(Death::mitosis);
-        b.resizeImage(TUVars.iconSize);
+        b.resizeImage(BLVars.iconSize);
         b.setRepeat(true);
 
-        TUElements.boxTooltip(b, "@tu-tooltip.button-clone");
+        BLElements.boxTooltip(b, "@tu-tooltip.button-clone");
         UnitStack dupe = new UnitStack(TUIcons.clone);
         b.replaceImage(dupe);
         b.getStyle().disabled = TUStyles.buttonCenterDisabled;

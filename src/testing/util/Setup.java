@@ -1,7 +1,6 @@
 package testing.util;
 
 import arc.*;
-import arc.func.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
@@ -23,8 +22,6 @@ public class Setup{
     public static void init(){
         TUDialogs.load();
 
-        Boolp main = () -> !TestUtils.disableCampaign();
-
         BLSetup.addTable(table -> {
             if(mobile && Core.settings.getBool("console")){
                 table.table(Tex.buttonEdge3, Console::addButtons);
@@ -44,11 +41,11 @@ public class Setup{
                 Death.addButtons(t);
                 LightSwitch.lightButton(t);
             });
-        }, main);
+        }, () -> !net.client() && !TestUtils.disableCampaign());
 
         BLSetup.addTable(table -> {
             table.table(Tex.pane, Death::seppuku);
-        }, () -> state.isCampaign() && !main.get());
+        }, () -> !net.client() && state.isCampaign() && TestUtils.disableCampaign());
 
         Table miniPos = ui.hudGroup.find("minimap/position");
         Label pos = miniPos.find("position");

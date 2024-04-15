@@ -36,7 +36,8 @@ public class TeamChanger{
                 button.clicked(() -> changeTeam(team));
                 button.held(() -> teamDialog.show(curTeam(), TeamChanger::changeTeam));
 
-                button.getImageCell().grow().scaling(Scaling.stretch).center().pad(0).margin(0);
+                button.getImageCell().grow().center().pad(0).margin(0);
+                button.getImage().setScaling(Scaling.stretch);
                 button.getStyle().imageUpColor = team.color;
                 button.update(() -> button.setChecked(player.team() == team));
 

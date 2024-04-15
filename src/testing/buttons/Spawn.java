@@ -3,6 +3,7 @@ package testing.buttons;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import blui.*;
 import blui.ui.*;
 import mindustry.content.*;
 import testing.ui.*;
@@ -18,7 +19,7 @@ public class Spawn{
         ImageButton b = new ImageButton(unitDialog.getUnit().uiIcon, TUStyles.tuImageStyle);
         BLElements.boxTooltip(b, "@tu-tooltip.button-units");
         b.clicked(unitDialog::show);
-        b.resizeImage(40f);
+        b.resizeImage(BLVars.iconSize);
         b.update(() -> {
             ((TextureRegionDrawable)(b.getStyle().imageUp)).setRegion(unitDialog.getUnit().uiIcon);
         });
@@ -38,7 +39,7 @@ public class Spawn{
                 blockDialog.show();
             }
         });
-        b.resizeImage(40f);
+        b.resizeImage(BLVars.iconSize);
         b.update(() -> {
             ((TextureRegionDrawable)(b.getStyle().imageUp)).setRegion((net.client() ? Blocks.coreShard : blockDialog.getBlock()).uiIcon);
         });
@@ -54,7 +55,7 @@ public class Spawn{
         b.clicked(() -> {
             if(net.client()) Utils.runCommand("core pos");
         });
-        b.resizeImage(40f);
+        b.resizeImage(BLVars.iconSize);
         t.add(b);
     }
 

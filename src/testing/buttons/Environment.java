@@ -2,6 +2,7 @@ package testing.buttons;
 
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import blui.*;
 import blui.ui.*;
 import testing.ui.*;
 import testing.util.*;
@@ -13,7 +14,7 @@ public class Environment{
         ImageButton b = new ImageButton(TUIcons.weather, TUStyles.tuImageStyle);
         BLElements.boxTooltip(b, "@tu-tooltip.button-world");
         b.clicked(worldDialog::show);
-        b.resizeImage(40f);
+        b.resizeImage(BLVars.iconSize);
 
         t.add(b);
     }

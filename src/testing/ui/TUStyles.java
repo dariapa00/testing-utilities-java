@@ -28,7 +28,7 @@ public class TUStyles{
 
     public static HoldImageButtonStyle
         tuHoldImageStyle,
-        clearNoneTogglehi;
+        teamChanger;
 
     public static void init(){
         buttonLeft = atlas.getDrawable("test-utils-button-left");
@@ -100,6 +100,9 @@ public class TUStyles{
 
         tuHoldImageStyle = new HoldImageButtonStyle(tuImageStyle);
 
-        clearNoneTogglehi = new HoldImageButtonStyle(Styles.clearNoneTogglei);
+        teamChanger = new HoldImageButtonStyle(Styles.clearNoneTogglei){{
+            down = Tex.whiteui;
+            checked = Tex.whiteui;
+        }};
     }
 }

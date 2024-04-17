@@ -68,7 +68,7 @@ public class MusicsTable extends STable{
                                 String path = f.pathWithoutExtension();
                                 int folderIndex = f.pathWithoutExtension().indexOf(mDir);
                                 String loc = path.substring(folderIndex + mDir.length());
-                                if(assets.isLoaded(loc) && assets.getAssetType(loc) != Sound.class) return;
+                                if(assets.getAssetType(loc) != Music.class) return;
                                 Music mus = tree.loadMusic(loc);
                                 modMusic.addUnique(mus);
                                 musicMods.put(mus, mName);

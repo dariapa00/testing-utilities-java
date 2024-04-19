@@ -2,7 +2,6 @@ package testing.dialogs.sound;
 
 import arc.*;
 import arc.audio.*;
-import arc.files.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.input.*;
@@ -21,19 +20,9 @@ import mindustry.graphics.*;
 import testing.ui.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
+import static testing.dialogs.sound.LoadedSounds.*;
 
 public class MusicsTable extends STable{
-    private static final Seq<Music> vanillaMusic = Seq.with(
-        Musics.menu, Musics.launch, Musics.land, Musics.editor,
-        Musics.game1, Musics.game2, Musics.game3, Musics.game4, Musics.fine,
-        Musics.game5, Musics.game6, Musics.game7, Musics.game8, Musics.game9,
-        Musics.boss1, Musics.boss2
-    );
-    private static Seq<Music> modMusic;
-    private static ObjectMap<Music, String> overrides;
-    private static ObjectMap<Music, String> musicMods;
-
     private final Table selection = new Table();
     private TextField search;
     private MusicProgressBar progressBar;
@@ -43,48 +32,12 @@ public class MusicsTable extends STable{
     private Music selectedMusic = Musics.menu;
     protected Music playingMusic = null;
 
-    public MusicsTable(){
-        if(modMusic == null){ //Only grab musics once
-            //For some reason modded music is not included in assets.getAll. Walk through mod files instead.
-            modMusic = new Seq<>();
-            overrides = new ObjectMap<>();
-            musicMods = new ObjectMap<>();
-            String mDir = "music/";
-            Vars.mods.eachEnabled(m -> {
-                Fi musicFolder = m.root.child("music");
-                String mName = m.meta.displayName;
-                if(musicFolder.exists() && musicFolder.isDirectory()){
-                    musicFolder.walk(f -> {
-                        String ext = f.extension();
-                        if(ext.equals("mp3") || ext.equals("ogg")){
-                            //Check for override
-                            int vanillaIndex = vanillaMusic.indexOf(s -> getName(s).equals(f.nameWithoutExtension()));
-                            if(vanillaIndex != -1){
-                                Music overwritten = vanillaMusic.get(vanillaIndex);
-                                modMusic.addUnique(overwritten);
-                                overrides.put(overwritten, mName);
-                                musicMods.put(overwritten, mName);
-                            }else{ //Add
-                                String path = f.pathWithoutExtension();
-                                int folderIndex = f.pathWithoutExtension().indexOf(mDir);
-                                String loc = path.substring(folderIndex + mDir.length());
-                                if(assets.getAssetType(loc) != Music.class) return;
-                                Music mus = tree.loadMusic(loc);
-                                modMusic.addUnique(mus);
-                                musicMods.put(mus, mName);
-                            }
-                        }
-                    });
-                }
-            });
-            modMusic.sort(Structs.comparing(o -> musicMods.get(o)));
-        }
-    }
+    public MusicsTable(){}
 
     public void createSelection(Table t, TextField search){
         this.search = search;
 
-        t.label(() -> bundle.get("tu-menu.selection") + getName(selectedMusic)).padBottom(6).left().row();
+        t.label(() -> bundle.get("tu-menu.selection") + getMusicName(selectedMusic)).padBottom(6).left().row();
 
         t.pane(all -> all.add(selection).growX());
 
@@ -94,7 +47,7 @@ public class MusicsTable extends STable{
     public void createPlay(Table t){
         BLElements.divider(t, "@tu-sound-menu.music", Pal.accent);
         t.table(s -> {
-            s.label(() -> Core.bundle.format("tu-sound-menu.now-playing", getName(playingMusic))).left().colspan(3).padBottom(6f);
+            s.label(() -> Core.bundle.format("tu-sound-menu.now-playing", getMusicName(playingMusic))).left().colspan(3).padBottom(6f);
             s.row();
             s.button("@tu-sound-menu.switch", () -> switchMusic(selectedMusic)).wrapLabel(false)
                 .left().colspan(3).disabled(b -> selectedMusic == playingMusic).get().setStyle(TUStyles.round);
@@ -110,7 +63,7 @@ public class MusicsTable extends STable{
         String text = search.getText();
 
         selection.table(list -> {
-            Seq<Music> vSounds = vanillaMusic.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
+            Seq<Music> vSounds = vanillaMusic.select(s -> getMusicName(s).toLowerCase().contains(text.toLowerCase()));
             if(vSounds.size > 0){
                 BLElements.divider(list, "@tu-sound-menu.vanilla", Pal.accent);
 
@@ -118,7 +71,7 @@ public class MusicsTable extends STable{
                 list.row();
             }
 
-            Seq<Music> mSounds = modMusic.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
+            Seq<Music> mSounds = modMusic.select(s -> getMusicName(s).toLowerCase().contains(text.toLowerCase()));
             if(mSounds.size > 0){
                 BLElements.divider(list, "@tu-sound-menu.modded", Pal.accent);
 
@@ -131,13 +84,13 @@ public class MusicsTable extends STable{
         int cols = 4;
         int count = 0;
         for(Music m : musics){
-            TextButton mb = t.button(getName(m), () -> selectedMusic = m)
+            TextButton mb = t.button(getMusicName(m), () -> selectedMusic = m)
                 .uniformX().grow().checked(b -> selectedMusic == m).get();
             mb.setStyle(TUStyles.toggleCentert);
 
-            if(overrides.containsKey(m)){
+            if(musicOverrides.containsKey(m)){
                 mb.setDisabled(true);
-                BLElements.boxTooltip(mb, bundle.format("tu-sound-menu.music-overwritten", overrides.get(m)));
+                BLElements.boxTooltip(mb, bundle.format("tu-sound-menu.music-overwritten", musicOverrides.get(m)));
             }
 
             if((++count) % cols == 0){
@@ -160,7 +113,7 @@ public class MusicsTable extends STable{
                 t.row();
             }
 
-            t.button(getName(m), () -> selectedMusic = m)
+            t.button(getMusicName(m), () -> selectedMusic = m)
                 .uniformX().grow().checked(b -> selectedMusic == m)
                 .get().setStyle(TUStyles.toggleCentert);
 
@@ -168,12 +121,6 @@ public class MusicsTable extends STable{
                 t.row();
             }
         }
-    }
-
-    public String getName(Music s){
-        if(s == null) return "none";
-        String full = s.toString();
-        return full.substring(full.lastIndexOf("/") + 1, full.length() - 4);
     }
 
     private void switchMusic(Music music){

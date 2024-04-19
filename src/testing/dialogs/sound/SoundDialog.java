@@ -21,8 +21,8 @@ public class SoundDialog extends TUBaseDialog{
     private static final AudioBus soundRoomBus = new AudioBus();
 
     private FilterTable filters = null;
-    private final SoundsTable soundsTable;
-    private final MusicsTable musicsTable;
+    private SoundsTable soundsTable;
+    private MusicsTable musicsTable;
     private STable current;
     private Table all;
     private TextField search;
@@ -30,6 +30,11 @@ public class SoundDialog extends TUBaseDialog{
     public SoundDialog(){
         super("@tu-sound-menu.name");
 
+        Core.app.post(this::build); //Allow mods to load their sounds
+    }
+
+    private void build(){
+        LoadedSounds.init();
         soundsTable = new SoundsTable(soundRoomBus);
         current = soundsTable;
         musicsTable = new MusicsTable();

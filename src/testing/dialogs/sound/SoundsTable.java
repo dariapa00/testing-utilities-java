@@ -2,7 +2,6 @@ package testing.dialogs.sound;
 
 import arc.*;
 import arc.audio.*;
-import arc.files.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.scene.ui.*;
@@ -11,21 +10,15 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import blui.ui.*;
-import mindustry.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import testing.ui.*;
 import testing.util.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
+import static testing.dialogs.sound.LoadedSounds.*;
 
 public class SoundsTable extends STable{
-    private static Seq<Sound> vanillaSounds;
-    private static Seq<Sound> modSounds;
-    private static ObjectMap<Sound, String> overrides;
-    private static ObjectMap<Sound, String> soundMods;
-
     private final AudioBus soundRoomBus;
     private final Table selection = new Table();
     private TextField search;
@@ -37,56 +30,12 @@ public class SoundsTable extends STable{
 
     public SoundsTable(AudioBus soundRoomBus){
         this.soundRoomBus = soundRoomBus;
-        if(modSounds == null){ //Only grab sounds once
-            vanillaSounds = new Seq<>();
-            int i = 0;
-            while(true){ //Put vanilla sounds first
-                Sound found = Sounds.getSound(i);
-                if(found == null || found == Sounds.none) break;
-
-                vanillaSounds.addUnique(found);
-                i++;
-            }
-
-            modSounds = new Seq<>();
-            overrides = new ObjectMap<>();
-            soundMods = new ObjectMap<>();
-            String mDir = "sounds/";
-            Vars.mods.eachEnabled(m -> {
-                Fi musicFolder = m.root.child("sounds");
-                String mName = m.meta.displayName;
-                if(musicFolder.exists() && musicFolder.isDirectory()){
-                    musicFolder.walk(f -> {
-                        String ext = f.extension();
-                        if(ext.equals("mp3") || ext.equals("ogg")){
-                            //Check for override
-                            int vanillaIndex = vanillaSounds.indexOf(s -> getName(s).equals(f.nameWithoutExtension()));
-                            if(vanillaIndex != -1){
-                                Sound overwritten = vanillaSounds.get(vanillaIndex);
-                                modSounds.addUnique(overwritten);
-                                overrides.put(overwritten, mName);
-                                soundMods.put(overwritten, mName);
-                            }else{ //Add
-                                String path = f.pathWithoutExtension();
-                                int folderIndex = f.pathWithoutExtension().indexOf(mDir);
-                                String loc = path.substring(folderIndex + mDir.length());
-                                if(assets.getAssetType(loc) != Sound.class) return;
-                                Sound sou = tree.loadSound(loc);
-                                modSounds.addUnique(sou);
-                                soundMods.put(sou, mName);
-                            }
-                        }
-                    });
-                }
-            });
-            modSounds.sort(Structs.comparing(o -> soundMods.get(o)));
-        }
     }
 
     public void createSelection(Table t, TextField search){
         this.search = search;
 
-        t.label(() -> bundle.get("tu-menu.selection") + getName(sound)).padBottom(6).left().row();
+        t.label(() -> bundle.get("tu-menu.selection") + getSoundName(sound)).padBottom(6).left().row();
 
         t.pane(all -> all.add(selection).growX());
 
@@ -170,7 +119,7 @@ public class SoundsTable extends STable{
         String text = search.getText();
 
         selection.table(list -> {
-            Seq<Sound> vSounds = vanillaSounds.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
+            Seq<Sound> vSounds = vanillaSounds.select(s -> getSoundName(s).toLowerCase().contains(text.toLowerCase()));
             if(vSounds.size > 0){
                 BLElements.divider(list, "@tu-sound-menu.vanilla", Pal.accent);
 
@@ -178,7 +127,7 @@ public class SoundsTable extends STable{
                 list.row();
             }
 
-            Seq<Sound> mSounds = modSounds.select(s -> getName(s).toLowerCase().contains(text.toLowerCase()));
+            Seq<Sound> mSounds = modSounds.select(s -> getSoundName(s).toLowerCase().contains(text.toLowerCase()));
             if(mSounds.size > 0){
                 BLElements.divider(list, "@tu-sound-menu.modded", Pal.accent);
 
@@ -191,15 +140,15 @@ public class SoundsTable extends STable{
         int cols = 4;
         int count = 0;
         for(Sound s : sounds){
-            TextButton sb = t.button(getName(s), () -> {
+            TextButton sb = t.button(getSoundName(s), () -> {
                 stopSounds();
                 sound = s;
             }).uniformX().grow().checked(b -> sound == s).get();
             sb.setStyle(TUStyles.toggleCentert);
 
-            if(overrides.containsKey(s)){
+            if(soundOverrides.containsKey(s)){
                 sb.setDisabled(true);
-                BLElements.boxTooltip(sb, bundle.format("tu-sound-menu.sound-overwritten", overrides.get(s)));
+                BLElements.boxTooltip(sb, bundle.format("tu-sound-menu.sound-overwritten", soundOverrides.get(s)));
             }
 
             if((++count) % cols == 0){
@@ -222,7 +171,7 @@ public class SoundsTable extends STable{
                 t.row();
             }
 
-            t.button(getName(s), () -> {
+            t.button(getSoundName(s), () -> {
                 stopSounds();
                 sound = s;
             }).uniformX().grow().checked(b -> sound == s)
@@ -232,11 +181,6 @@ public class SoundsTable extends STable{
                 t.row();
             }
         }
-    }
-
-    public String getName(Sound s){
-        String full = s.toString();
-        return full.substring(full.lastIndexOf("/") + 1, full.length() - 4);
     }
 
     public void stopSounds(){

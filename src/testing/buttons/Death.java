@@ -89,7 +89,6 @@ public class Death{
         BLElements.boxTooltip(b, "@tu-tooltip.button-seppuku");
         UnitStack kill = new UnitStack(TUIcons.seppuku);
         b.replaceImage(kill);
-        b.getStyle().disabled = TUStyles.buttonCenterDisabled;
 
         b.setDisabled(() -> player.unit() == null || player.unit().type.internal);
         b.update(() -> {
@@ -110,9 +109,8 @@ public class Death{
         BLElements.boxTooltip(b, "@tu-tooltip.button-clone");
         UnitStack dupe = new UnitStack(TUIcons.clone);
         b.replaceImage(dupe);
-        b.getStyle().disabled = TUStyles.buttonCenterDisabled;
 
-        b.setDisabled(() -> player.unit() == null || player.unit().type.internal);
+        b.setDisabled(() -> player.unit() == null || player.unit() == Nulls.unit || player.unit().type.internal);
         b.update(() -> {
             updateIcon(dupe);
             dupe.setColor(b.isDisabled() ? Color.gray : Color.white);
@@ -128,8 +126,12 @@ public class Death{
 
     private static void updateIcon(UnitStack stack){
         Unit u = player.unit();
-        if(u != null && u.type != stack.lastType && !u.type.internal){
-            stack.setImage(u.type.uiIcon);
+        if(u != null && u != Nulls.unit && u.type != stack.lastType){
+            if(u.type.internal){
+                stack.setImage(Icon.none);
+            }else{
+                stack.setImage(u.type.uiIcon);
+            }
             stack.lastType = u.type;
         }
     }
@@ -141,12 +143,17 @@ public class Death{
         public UnitStack(TextureRegionDrawable icon){
             image = new Image(UnitTypes.alpha.uiIcon).setScaling(Scaling.fit);
             add(image);
+
             this.icon = new Image(new TextureRegionDrawable(icon)).setScaling(Scaling.fit);
             add(this.icon);
         }
 
         public void setImage(TextureRegion unit){
             image.setDrawable(new TextureRegionDrawable(unit));
+        }
+
+        public void setImage(TextureRegionDrawable drawable){
+            image.setDrawable(drawable);
         }
 
         @Override

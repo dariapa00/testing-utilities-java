@@ -38,6 +38,7 @@ public class TerrainPainterFragment{
     Table selection = new Table();
     private boolean show = false;
     private boolean buildings = false;
+    private boolean lastIndent = false;
     private boolean indentCliff = false;
 
     public void build(Group parent){
@@ -221,8 +222,19 @@ public class TerrainPainterFragment{
                 cButton.label(() -> indentCliff ? "@tu-painter.canyons" : "@tu-painter.cliffs").padLeft(6f).expandX();
 
                 cButton.addListener(new Tooltip(tool -> {
-                    tool.background(Tex.button)
-                        .label(() -> indentCliff ? "@tu-tooltip.painter-canyons" : "@tu-tooltip.painter-cliffs");
+                    Prov<CharSequence> labelText = () -> indentCliff ? "@tu-tooltip.painter-canyons" : "@tu-tooltip.painter-cliffs";
+                    Label tL = tool.background(Tex.button)
+                        .label(labelText).get();
+                    tool.update(() -> {
+                        if(lastIndent != indentCliff){
+                            lastIndent = indentCliff;
+                            tL.setText(labelText.get());
+                            tL.invalidate();
+                            tool.invalidate();
+                            tL.pack();
+                            tool.pack();
+                        }
+                    });
                 }));
 
                 all.add(cButton).padTop(4f).disabled(b -> painter.pendingCliffs.isEmpty());
@@ -249,7 +261,7 @@ public class TerrainPainterFragment{
             if(show){
                 app.post(() -> ui.paused.hide());
                 if(mobile){
-                    ui.showInfoPopup("@tu-painter.paused", 7, Align.center, 0, 0, 0,0);
+                    ui.showInfoPopup("@tu-painter.paused", 7, Align.center, 0, 0, 0, 0);
                 }else{
                     hide();
                 }

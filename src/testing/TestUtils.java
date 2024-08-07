@@ -165,6 +165,7 @@ public class TestUtils extends Mod{
             t.checkPref("tu-show-hidden", false);
             t.checkPref("tu-fill-all", false);
             t.checkPref("tu-wu-coords", true);
+            t.checkPref("tu-tile-info", false);
             t.pref(new TeamSetting("tu-default-team"));
             t.pref(new Separator(8));
             t.pref(new ButtonSetting("tu-interp", TUIcons.get(Icon.line), () -> interpDialog.show()));

@@ -8,10 +8,12 @@ import blui.ui.*;
 import mindustry.core.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
+import mindustry.world.*;
 import testing.*;
 import testing.buttons.*;
 import testing.ui.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class Setup{
@@ -23,7 +25,7 @@ public class Setup{
         TUDialogs.load();
 
         BLSetup.addTable(table -> {
-            if(mobile && Core.settings.getBool("console")){
+            if(mobile && settings.getBool("console")){
                 table.table(Tex.buttonEdge3, Console::addButtons);
                 table.row();
             }
@@ -49,23 +51,51 @@ public class Setup{
 
         Table miniPos = ui.hudGroup.find("minimap/position");
         Label pos = miniPos.find("position");
-        pos.setText(() ->
-            (Core.settings.getBool("position") ?
-                player.tileX() + ", " + player.tileY() + "\n" +
-                (Core.settings.getBool("tu-wu-coords", true) ? "[accent]" + fix(player.x) + ", " + fix(player.y) + "\n" : "") :
-                ""
-            ) +
-            (Core.settings.getBool("mouseposition") ?
-                "[lightgray]" + World.toTile(Core.input.mouseWorldX()) + ", " + World.toTile(Core.input.mouseWorldY()) + "\n" +
-                (Core.settings.getBool("tu-wu-coords", true) ? "[#d4816b]" + fix(Core.input.mouseWorldX()) + ", " + fix(Core.input.mouseWorldY()) : "") : //accentBack is not an indexed color for [] format
-                ""
-            )
-        );
+        pos.setText(() -> {
+            String playerPos = "";
+            if(settings.getBool("position")){
+                playerPos = player.tileX() + ", " + player.tileY() + "\n";
+                if(settings.getBool("tu-wu-coords", true)){
+                    playerPos += "[accent]" + fix(player.x) + ", " + fix(player.y) + "\n";
+                }
+            }
+
+            int tx = World.toTile(Core.input.mouseWorldX()),
+                ty = World.toTile(Core.input.mouseWorldY());
+
+            String cursorPos = "";
+            if(settings.getBool("mouseposition")){
+                cursorPos = "[lightgray]" + tx + ", " + ty + "\n";
+                if(settings.getBool("tu-wu-coords", true)){
+                    cursorPos += "[#d4816b]" + fix(Core.input.mouseWorldX()) + ", " + fix(Core.input.mouseWorldY()) + "\n";
+                }
+
+                if(settings.getBool("tu-tile-info", false)){
+                    Tile tile = world.tile(tx, ty);
+                    cursorPos += "[#a9d8ff]";
+                    if(tile == null){
+                        cursorPos += "-----";
+                    }else{
+                        cursorPos += tile.floor().localizedName
+                            + " | " + tile.overlay().localizedName
+                            + " | " + tile.block().localizedName
+                            + " | data = ";
+                        StringBuilder data = new StringBuilder();
+                        for(int i = 7; i >= 0; i--){
+                            data.append((tile.data & (1 << i)) != 0 ? '1' : '0');
+                        }
+                        cursorPos += data;
+                    }
+                }
+            }
+
+            return playerPos + cursorPos;
+        });
         miniPos.getCell(miniPos.find("minimap")).top().right();
         miniPos.getCell(pos).top().right();
 
         terrainFrag = new TerrainPainterFragment();
-        terrainFrag.build(ui.hudGroup);
+        Core.app.post(() -> terrainFrag.build(ui.hudGroup)); //Wait for BLUI to set up.
 
         Events.on(WorldLoadEvent.class, e -> {
             if(posLabelAligned) return;

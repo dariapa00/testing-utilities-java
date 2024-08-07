@@ -12,6 +12,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import blui.scene.ui.*;
 import blui.ui.*;
 import mindustry.content.*;
 import mindustry.editor.*;
@@ -37,6 +38,7 @@ public class TerrainPainterFragment{
     Table selection = new Table();
     private boolean show = false;
     private boolean buildings = false;
+    private boolean indentCliff = false;
 
     public void build(Group parent){
         Boolp visibility = () -> show && !ui.minimapfrag.shown();
@@ -211,12 +213,19 @@ public class TerrainPainterFragment{
                 all.stack(slider, label).width(sliderWidth).padTop(4f);
                 all.row();
 
-                BLElements.imageButton(
-                    all, TUIcons.get(Icon.terrain), Styles.defaulti, buttonSize,
-                    () -> painter.flushCliffs(),
-                    () -> "@tu-painter.cliffs",
-                    "@tu-tooltip.painter-cliffs"
-                ).padTop(4f).disabled(b -> painter.pendingCliffs.isEmpty());
+                HoldImageButton cButton = new HoldImageButton(TUIcons.get(Icon.terrain));
+                cButton.clicked(() -> painter.flushCliffs(indentCliff));
+                cButton.held(() -> indentCliff = !indentCliff);
+                cButton.resizeImage(buttonSize);
+
+                cButton.label(() -> indentCliff ? "@tu-painter.canyons" : "@tu-painter.cliffs").padLeft(6f).expandX();
+
+                cButton.addListener(new Tooltip(tool -> {
+                    tool.background(Tex.button)
+                        .label(() -> indentCliff ? "@tu-tooltip.painter-canyons" : "@tu-tooltip.painter-cliffs");
+                }));
+
+                all.add(cButton).padTop(4f).disabled(b -> painter.pendingCliffs.isEmpty());
 
                 all.row();
 

@@ -5,9 +5,11 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import blui.ui.*;
+import mindustry.*;
 import mindustry.core.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
+import mindustry.mod.Mods.*;
 import mindustry.world.*;
 import testing.*;
 import testing.buttons.*;
@@ -20,6 +22,7 @@ public class Setup{
     public static boolean posLabelAligned = false;
 
     public static TerrainPainterFragment terrainFrag;
+    private static Table timeSlider;
 
     public static void init(){
         TUDialogs.load();
@@ -43,9 +46,18 @@ public class Setup{
                 Death.addButtons(t);
                 LightSwitch.lightButton(t);
             });
+
+            if(timeControlEnabled()){
+                table.row();
+                table.add(getTimeSlider());
+            }
         }, () -> !net.client() && !TestUtils.disableCampaign());
 
         BLSetup.addTable(table -> {
+            if(timeControlEnabled()){
+                table.add(getTimeSlider());
+            }
+
             table.table(Tex.pane, Death::seppuku);
         }, () -> !net.client() && state.isCampaign() && TestUtils.disableCampaign());
 
@@ -102,6 +114,21 @@ public class Setup{
             pos.setAlignment(Align.right, Align.right);
             posLabelAligned = true;
         });
+    }
+
+    private static Table getTimeSlider(){
+        if(timeSlider == null){
+            timeSlider = Vars.ui.hudGroup.find("tc-slidertable");
+            timeSlider.visible(() -> true);
+
+            Vars.ui.hudGroup.find("tc-foldedtable").visible(() -> false);
+        }
+        return timeSlider;
+    }
+
+    public static boolean timeControlEnabled(){
+        LoadedMod timeControl = Vars.mods.getMod("time-control");
+        return timeControl != null && timeControl.isSupported() && timeControl.enabled();
     }
 
     private static String fix(float f){

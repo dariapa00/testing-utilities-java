@@ -21,6 +21,7 @@ public class TUSettings{
         ui.settings.addCategory(bundle.get("setting.tu-title"), "test-utils-settings-icon", t -> {
             t.pref(new Banner("test-utils-settings-banner", -1));
             t.checkPref("tu-instakill", true);
+            t.checkPref("tu-death-effect", true);
             t.checkPref("tu-despawns", true);
             t.checkPref("tu-permanent", false);
             t.checkPref("tu-show-hidden", false);

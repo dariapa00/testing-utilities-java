@@ -40,22 +40,24 @@ public class Setup{
             });
             table.row();
 
-            table.table(Tex.pane, t -> {
+            boolean timeControl = timeControlEnabled();
+
+            table.table(timeControl ? Tex.buttonEdge3 : Tex.pane, t -> {
                 TeamChanger.addButton(t);
                 Health.addButtons(t);
                 Death.addButtons(t);
                 LightSwitch.lightButton(t);
             });
 
-            if(timeControlEnabled()){
+            if(timeControl){
                 table.row();
-                table.add(getTimeSlider());
+                table.add(yoinkTimeSlider());
             }
         }, () -> !net.client() && !TestUtils.disableCampaign());
 
         BLSetup.addTable(table -> {
             if(timeControlEnabled()){
-                table.add(getTimeSlider());
+                table.add(yoinkTimeSlider());
             }
 
             table.table(Tex.pane, Death::seppuku);
@@ -116,7 +118,7 @@ public class Setup{
         });
     }
 
-    private static Table getTimeSlider(){
+    private static Table yoinkTimeSlider(){
         if(timeSlider == null){
             timeSlider = Vars.ui.hudGroup.find("tc-slidertable");
             timeSlider.visible(() -> true);

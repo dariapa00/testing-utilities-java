@@ -328,7 +328,7 @@ public class TerrainPainterFragment{
                         painter.drawBlock = b;
                     }
                 });
-                BLElements.boxTooltip(image, b.localizedName);
+                BLElements.flatTooltip(image, b.localizedName);
 
                 if((++count) % cols == 0){
                     list.row();

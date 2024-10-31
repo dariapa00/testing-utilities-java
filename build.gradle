@@ -19,7 +19,7 @@ ext{
     //the build number that this mod is made for
     mindustryVersion = 'v146'
     jabelVersion = "93fde537c7"
-    bluiVersion = "v8"
+    bluiVersion = "v9"
 
     //windows sucks
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")

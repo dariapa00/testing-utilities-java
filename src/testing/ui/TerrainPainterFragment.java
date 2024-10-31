@@ -52,10 +52,10 @@ public class TerrainPainterFragment{
                     s.image(Icon.zoom).padRight(8);
                     search = s.field(null, text -> rebuild()).growX().get();
                     search.setMessageText("@players.search");
-                    s.button(TUIcons.get(Icon.crafting), Styles.squareTogglei, buttonSize, () -> {
+                    BLElements.imageButton(s, TUIcons.get(Icon.crafting), Styles.squareTogglei, buttonSize, () -> {
                         buildings = !buildings;
                         rebuild();
-                    }).checked(b -> buildings).size(iconSize);
+                    }, null, "@tu-tooltip.painter-buildings").checked(b -> buildings).size(iconSize);
                 }).fillX().padBottom(4);
 
                 all.row();

@@ -20,7 +20,7 @@ description: "Utilities for testing stuff in sandbox. (Load the game with this m
 subtitle: "Easier to use than the console."
 
 #the mod version
-version: 67
+version: 68
 
 #the minimum game build required to run this mod
 minGameVersion: 146

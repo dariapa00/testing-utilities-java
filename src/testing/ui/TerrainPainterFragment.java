@@ -47,7 +47,7 @@ public class TerrainPainterFragment{
         parent.fill(t -> {
             t.name = "terrainpainterselection";
             t.bottom().right().visible(visibility);
-            t.table(Tex.buttonEdge1, all -> {
+            t.table(Tex.pane, all -> {
                 all.table(s -> {
                     s.image(Icon.zoom).padRight(8);
                     search = s.field(null, text -> rebuild()).growX().get();
@@ -61,13 +61,8 @@ public class TerrainPainterFragment{
                 all.row();
                 all.label(() -> "[accent]" + painter.drawBlock.localizedName).padBottom(4).row();
 
-                int rows = 9;
-                float h = rows * (4 * 8) + (rows - 1) * 6 + 2 * 3;
-                all.pane(sel -> {
-                    sel.top();
-                    sel.add(selection);
-                }).fillX().height(h);
-            });
+                all.pane(selection).fillX().growY().top();
+            }).growY();
         });
 
         parent.fill(t -> {
@@ -292,6 +287,7 @@ public class TerrainPainterFragment{
 
     private void rebuild(){
         selection.clear();
+        selection.top();
         String text = search.getText();
 
         Seq<Block> array = content.blocks()
@@ -302,7 +298,7 @@ public class TerrainPainterFragment{
         if(array.size == 0) return;
 
         selection.table(list -> {
-            list.left();
+            list.top();
 
             int cols = 6;
             int count = 0;

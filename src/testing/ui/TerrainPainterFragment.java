@@ -353,7 +353,7 @@ public class TerrainPainterFragment{
                 b instanceof TreeBlock ||
                 b instanceof TallBlock ||
                 b instanceof Cliff
-        ) && !b.isAir() && (b.inEditor || b == Blocks.cliff) && b != Blocks.spawn;
+        ) && !b.isAir() && (b.inEditor || b instanceof Cliff) && b != Blocks.spawn;
     }
 
     private boolean isBuilding(Block b){

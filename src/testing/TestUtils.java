@@ -32,8 +32,6 @@ public class TestUtils extends Mod{
             loadLogger();
         }
 
-        experimental = true; //Also dev mode
-
         //Add campaign maps to custom maps list
         Seq<String> mapNames = new Seq<>();
         mapNames.addAll( //Sectors aren't loaded yet, need to hardcode

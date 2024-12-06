@@ -1,0 +1,36 @@
+#the mod name as displayed in-game
+displayName: "Testing Utilities"
+
+#the internal name of your mod
+name: "test-utils"
+
+#your name
+author: "MEEP of Faith"
+
+#the fully qualified main class of the mod
+main: "testing.TestUtils"
+
+#mod repo on github
+repo: MEEPofFaith/testing-utilities-java
+
+#the mod description as seen in the mod dialog
+description: "Utilities for testing stuff in sandbox. (Load the game with this mod enabled for more info.)"
+
+#short description displayed under the title
+subtitle: "Easier to use than the console."
+
+#the mod version
+version: 68.1
+
+#the minimum game build required to run this mod
+minGameVersion: 146
+
+#this is a java mod
+java: true
+
+#doesn't have content; client-sided
+hidden: true
+
+dependencies: [
+  bl-ui-lib
+]
